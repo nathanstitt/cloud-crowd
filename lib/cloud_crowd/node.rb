@@ -76,7 +76,7 @@ module CloudCrowd
       @overloaded       = false
       @max_load         = CloudCrowd.config[:max_load]
       @min_memory       = CloudCrowd.config[:min_free_memory]
-      start unless test?
+      start unless 'test' == ENV['RACK_ENV']
     end
 
     # Starting up a Node registers with the central server and begins to listen

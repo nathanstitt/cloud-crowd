@@ -5,8 +5,8 @@ class WorkerTest < Test::Unit::TestCase
   context "A CloudCrowd::Worker" do
         
     setup do
-      @node = Node.new.instance_variable_get(:@app)
-      @unit = WorkUnit.make
+      @node = Node.new.instance_variable_get(:@instance)
+      @unit = WorkUnit.make!
       @worker = Worker.new(@node, JSON.parse(@unit.to_json))
     end
     
@@ -31,7 +31,7 @@ class WorkerTest < Test::Unit::TestCase
     
     should "be able to run an action and try to complete it" do
       GraphicsMagick.any_instance.expects(:process).returns('the answer')
-      GraphicsMagick.any_instance.expects(:cleanup_work_directory)
+      GraphicsMagick.any_instance.expects(:cleanup_work_directory)  
       @worker.expects(:complete_work_unit).with({'output' => 'the answer'}.to_json)
       @worker.run_work_unit
     end
