@@ -50,7 +50,32 @@ class WorkUnitTest < Test::Unit::TestCase
       assert @unit.failed?
       assert @unit.job.any_work_units_failed?
     end
-    
+
+    should "create with standard priority by default" do
+      assert_equal 1, @unit.priority_rank
+    end
+
+    should "sort work by priority" do
+      10.downto(0).each do | rank |
+        CloudCrowd::WorkUnit.make!({:priority_rank=>rank})
+      end
+      assert_equal 0, WorkUnit.ordered_by_priority.first.priority_rank
+    end
+
+    should "reserve lowest priority first" do
+      3.downto(0).each do | rank |
+        ( 0...100 ).each do
+          CloudCrowd::WorkUnit.make!({ :priority_rank=>rank })
+        end
+      end
+      assert reservation = WorkUnit.reserve_available( :limit => 10, :conditions => 'action="graphics_magick"'  )
+      units = WorkUnit.reserved(reservation)
+      assert_equal 10, units.length
+      units.each do |wu|
+        assert_equal 0, wu.priority_rank
+      end
+    end
+
   end
-  
+
 end

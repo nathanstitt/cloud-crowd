@@ -100,7 +100,18 @@ class JobTest < Test::Unit::TestCase
       assert count > Job.count
       assert !Job.find_by_id(@job.id)
     end
-            
+
+    should "create with standard priority by default" do
+      assert_equal 1, @job.priority_rank
+    end
+
+    should "work on the highest priority job first" do
+      (3...0).each do | rank |
+        Job.make!({ :priority_rank=> rank })
+      end
+      assert_equal 0, Job.ordered_by_priority.first.priority_rank
+    end
+
   end
   
 end
