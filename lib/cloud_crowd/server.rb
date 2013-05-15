@@ -71,7 +71,7 @@ module CloudCrowd
     post '/jobs' do
       job = Job.create_from_request(JSON.parse(params[:job]))
       Thread.new { WorkUnit.distribute_to_nodes }
-      puts "Job ##{job.id} (#{job.action}) started." unless ENV['RACK_ENV'] == 'test'
+      CloudCrowd.log "Job ##{job.id} priority: #{job.priority_rank} (#{job.action}) started."
       json job
     end
 
@@ -95,7 +95,7 @@ module CloudCrowd
     put '/node/:host' do
       NodeRecord.check_in(params, request)
       WorkUnit.distribute_to_nodes
-      puts "Node #{params[:host]} checked in."
+      CloudCrowd.log "Node #{params[:host]} checked in."
       json nil
     end
 
@@ -103,7 +103,7 @@ module CloudCrowd
     # WorkUnits it may have had checked out.
     delete '/node/:host' do
       NodeRecord.destroy_all(:host => params[:host])
-      puts "Node #{params[:host]} checked out."
+      CloudCrowd.log "Node #{params[:host]} checked out."
       json nil
     end
 

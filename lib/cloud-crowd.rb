@@ -121,6 +121,11 @@ module CloudCrowd
       @central_server ||= RestClient::Resource.new(CloudCrowd.config[:central_server], CloudCrowd.client_options)
     end
 
+    def log(msg)
+      return if 'test' == ENV['RACK_ENV']
+      puts Time.now.strftime('%Y-%m-%dT%H:%M:%SZ ') + msg
+    end
+
     # The path that daemonized servers and nodes will log to.
     def log_path(log_file=nil)
       @log_path ||= config[:log_path] || LOG_PATH
