@@ -47,7 +47,8 @@ module CloudCrowd
     rescue RestClient::RequestFailed => e
       raise e unless e.http_code == 503 && e.http_body == Node::OVERLOADED_MESSAGE
       update_attribute(:busy, true) && false
-    rescue RestClient::Exception, Errno::ECONNREFUSED, Timeout::Error, RestClient::RequestTimeout, Errno::ECONNRESET
+    rescue RestClient::Exception, Errno::ECONNREFUSED, Timeout::Error, RestClient::RequestTimeout, Errno::ECONNRESET, Errno::EHOSTUNREACH => ex
+      puts "#{host}: send work unit failure. exception: #{ex}"
       # Couldn't post to node, assume it's gone away.
       destroy && false
     end
