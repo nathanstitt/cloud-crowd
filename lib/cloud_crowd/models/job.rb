@@ -12,7 +12,9 @@ module CloudCrowd
     has_many :work_units, :dependent => :destroy
 
     validates_presence_of :status, :inputs, :action, :options, :priority_rank
-    def validate; errors.add("priority_rank", "must be >= 0") unless priority_rank >= 0; end
+    validates_numericality_of :priority_rank, :only_integer => true, :greater_than_or_equal_to=>0
+
+    named_scope :ordered_by_priority, :order=>"priority_rank asc"
 
     before_validation_on_create :set_initial_status
     after_create                :queue_for_workers
@@ -156,7 +158,8 @@ module CloudCrowd
         'status'            => display_status,
         'percent_complete'  => percent_complete,
         'work_units'        => work_units.count,
-        'time_taken'        => time_taken
+        'time_taken'        => time_taken,
+        'priority_rank'     => priority_rank
       }
       atts['outputs'] = JSON.parse(outputs) if outputs
       atts['email']   = email               if email

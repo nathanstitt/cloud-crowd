@@ -19,13 +19,15 @@ module CloudCrowd
     belongs_to :node_record
 
     validates_presence_of :job_id, :status, :input, :action, :priority_rank
-    def validate; priority_rank >= 0; end
+    validates_numericality_of :priority_rank, :only_integer => true, :greater_than_or_equal_to=>0
+
+    named_scope :ordered_by_priority, :order=>"priority_rank asc, updated_at asc"
 
     # Available WorkUnits are waiting to be distributed to Nodes for processing.
     named_scope :available, {:conditions => {:reservation => nil, :worker_pid => nil, :status => INCOMPLETE}}
     # Reserved WorkUnits have been marked for distribution by a central server process.
     named_scope :reserved,  lambda {|reservation|
-      {:conditions => {:reservation => reservation}, :order => 'priority_rank, updated_at asc'}
+      { :conditions => {:reservation => reservation}, :order=>"priority_rank asc, updated_at asc"  }
     }
 
     # Attempt to send a list of WorkUnits to nodes with available capacity.
@@ -80,7 +82,9 @@ module CloudCrowd
     def self.reserve_available(options={})
       reservation = ActiveSupport::SecureRandom.random_number(MAX_RESERVATION)
       conditions = "reservation is null and node_record_id is null and status in (#{INCOMPLETE.join(',')}) and #{options[:conditions]}"
-      any = WorkUnit.update_all("reservation = #{reservation}", conditions, {:order=>"priority_rank asc"}.merge(options)) > 0
+      any = WorkUnit.update_all("reservation = #{reservation}", conditions, {
+          :order=>"priority_rank asc, updated_at asc"
+        }.merge(options) ) > 0
       any && reservation
     end
 
