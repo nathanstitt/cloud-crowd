@@ -1,0 +1,105 @@
+PATH
+  remote: .
+  specs:
+    cloud-crowd (0.7.0)
+      activerecord (~> 2.3)
+      json (>= 1.1.7)
+      rest-client (>= 1.4)
+      sinatra
+      thin (>= 1.2.4)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activerecord (2.3.18)
+      activesupport (= 2.3.18)
+    activesupport (2.3.18)
+    coderay (1.0.9)
+    daemons (1.1.9)
+    eventmachine (1.0.3)
+    faker (1.1.2)
+      i18n (~> 0.5)
+    ffi (1.8.1)
+    formatador (0.2.4)
+    growl (1.0.3)
+    guard (1.8.0)
+      formatador (>= 0.2.4)
+      listen (>= 1.0.0)
+      lumberjack (>= 1.0.2)
+      pry (>= 0.9.10)
+      thor (>= 0.14.6)
+    guard-shell (0.5.1)
+      guard (>= 1.1.0)
+    i18n (0.6.4)
+    json (1.8.0)
+    listen (1.1.1)
+      rb-fsevent (>= 0.9.3)
+      rb-inotify (>= 0.9)
+      rb-kqueue (>= 0.2)
+    lumberjack (1.0.3)
+    machinist (2.0)
+    metaclass (0.0.1)
+    method_source (0.8.1)
+    mime-types (1.23)
+    mocha (0.13.3)
+      metaclass (~> 0.0.1)
+    pry (0.9.12.2)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    rack (1.5.2)
+    rack-protection (1.5.0)
+      rack
+    rack-test (0.6.2)
+      rack (>= 1.0)
+    rake (10.0.4)
+    rb-fsevent (0.9.3)
+    rb-inotify (0.9.0)
+      ffi (>= 0.5.0)
+    rb-kqueue (0.2.0)
+      ffi (>= 0.5.0)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
+    ruby_gntp (0.3.4)
+    sham (1.1.0)
+    shoulda (3.0.1)
+      shoulda-context (~> 1.0.0)
+      shoulda-matchers (~> 1.0.0)
+    shoulda-context (1.0.2)
+    shoulda-matchers (1.0.0)
+    sinatra (1.4.2)
+      rack (~> 1.5, >= 1.5.2)
+      rack-protection (~> 1.4)
+      tilt (~> 1.3, >= 1.3.4)
+    slop (3.4.5)
+    sqlite3 (1.3.7)
+    thin (1.5.1)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
+    thor (0.18.1)
+    tilt (1.4.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activerecord
+  cloud-crowd!
+  faker (>= 0.3.1)
+  growl
+  guard
+  guard-shell
+  json
+  machinist
+  mocha
+  pry
+  rack-test
+  rake
+  rest-client
+  ruby_gntp
+  sham
+  shoulda (>= 3.0.1)
+  sinatra
+  sqlite3
+  thin
