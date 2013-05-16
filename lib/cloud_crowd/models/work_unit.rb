@@ -47,6 +47,8 @@ module CloudCrowd
         # Find the available nodes, and determine what actions we're capable
         # of running at the moment.
         available_nodes   = NodeRecord.available
+        return unless available_nodes.any?
+
         available_actions = available_nodes.map {|node| node.actions }.flatten.uniq
         filter            = "action in (#{available_actions.map{|a| "'#{a}'"}.join(',')})"
 
